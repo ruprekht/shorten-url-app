@@ -1,0 +1,48 @@
+<div class="container">
+    <div *ngIf="!_loaded">
+      Loading...
+    </div>
+  
+    <div *ngIf="_loaded">
+        <div class="row columns">
+          <h1>Shorten URL Form</h1>
+        </div>
+      
+        <form [formGroup]="urlForm">
+          <div class="row">
+            <div class="columns small-12 medium-6">
+              <label>Shortcut
+                <input type="text" name="shortcut" [ngModel]="url.Shortcut" [formControl]="urlForm.controls['shortcut']">
+              </label>
+              <div class="alert" *ngIf="(!urlForm.controls['shortcut'].valid && urlForm.controls['shortcut'].touched) 
+                                        || (_shortcutInvalid && _url.shortcut === urlForm.controls['shortcut'].value)">
+                {{_shortcutInvalid && urlForm.controls['shortcut'].valid ? _validationExceptionMessage :_shortcutEmptyMessage}}
+              </div>
+            </div>
+            <div class="columns small-12 medium-6">
+              <label>URL
+                <input type="text" name="url" [ngModel]="url.Url" [formControl]="urlForm.controls['url']">
+              </label>
+              <div class="alert" *ngIf="(!urlForm.controls['url'].valid && urlForm.controls['url'].touched) 
+                                        || (_urlInvalid && _url.url === urlForm.controls['url'].value)">
+                {{_urlInvalid && urlForm.controls['url'].valid ? _validationExceptionMessage : _urlEmptyMessage}}
+              </div>
+            </div>
+          </div>
+          
+          <div>
+              <div class="pull-left">
+                  <i class="action-btn fa fa-arrow-circle-left fa-3x" (click)="goBack()"></i>
+              </div>            
+              <div class="pull-right" [hidden]="!urlForm.valid">
+                  <i class="action-btn fa fa-check-circle fa-3x" (click)="onSave(urlForm.value)" ></i>
+              </div>
+              <div class="pull-right" [hidden]="!_deletable">
+                  <i class="action-btn fa fa-times-circle fa-3x" (click)="onDelete()"></i>
+              </div>
+              
+          </div>
+          
+        </form>
+      </div>
+  </div>
